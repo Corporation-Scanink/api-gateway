@@ -1,0 +1,49 @@
+services:
+  pricing:
+    image: nginx
+  inventory:
+    image: nginx
+  proxy:
+    image: nginx
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind
+        source: ./api_conf.d
+        target: /etc/nginx/api_conf.d
+        read_only: true
+      - type: bind
+        source: ./api_backends.conf
+        target: /etc/nginx/api_backends.conf
+        read_only: true
+      - type: bind
+        source: ./api_gateway.conf
+        target: /etc/nginx/api_gateway.conf
+        read_only: true
+      - type: bind
+        source: ./api_json_errors.conf
+        target: /etc/nginx/api_json_errors.conf
+        read_only: true
+      - type: bind
+        source: ./api_keys.conf
+        target: /etc/nginx/api_keys.conf
+        read_only: true
+      - type: bind
+        source: ./tls/minidock-alias.crt
+        target: /etc/ssl/certs/api.example.com.crt
+        read_only: true
+      - type: bind
+        source: ./tls/minidock-alias.key
+        target: /etc/ssl/certs/api.example.com.key
+        read_only: true
+      - type: bind
+        source: ./healthcheck.sh
+        target: /etc/nginx/healthcheck.sh
+        read_only: false
+    ports:
+      - 443:443
+    depends_on:
+      - inventory
+      - pricing
