@@ -1,8 +1,18 @@
 services:
-  pricing:
+  client:
     image: nginx
-  inventory:
+    volumes:
+      - type: bind
+        source: ./downstreams_static.d/client.html
+        target: /usr/share/nginx/html/api/le/bill/client/index.html
+        read_only: true
+  millage:
     image: nginx
+    volumes:
+      - type: bind
+        source: ./downstreams_static.d/millage.html
+        target: /usr/share/nginx/html/api/le/bill/millage/index.html
+        read_only: true
   proxy:
     image: nginx
     volumes:
@@ -36,7 +46,7 @@ services:
         read_only: true
       - type: bind
         source: ./tls/minidock-alias.key
-        target: /etc/ssl/certs/minidock.key
+        target: /etc/ssl/private/minidock.key
         read_only: true
       - type: bind
         source: ./healthcheck.sh
@@ -44,6 +54,7 @@ services:
         read_only: false
     ports:
       - 443:443
+      - 80:80
     depends_on:
-      - inventory
-      - pricing
+      - millage
+      - client
