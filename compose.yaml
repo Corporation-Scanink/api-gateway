@@ -32,11 +32,11 @@ services:
         read_only: true
       - type: bind
         source: ./tls/minidock-alias.crt
-        target: /etc/ssl/certs/api.example.com.crt
+        target: /etc/ssl/certs/minidock.crt
         read_only: true
       - type: bind
         source: ./tls/minidock-alias.key
-        target: /etc/ssl/certs/api.example.com.key
+        target: /etc/ssl/certs/minidock.key
         read_only: true
       - type: bind
         source: ./healthcheck.sh
