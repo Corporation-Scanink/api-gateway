@@ -1,18 +1,4 @@
 services:
-  client:
-    image: nginx
-    volumes:
-      - type: bind
-        source: ./downstreams_static.d/client.html
-        target: /usr/share/nginx/html/api/le/bill/client/index.html
-        read_only: true
-  millage:
-    image: nginx
-    volumes:
-      - type: bind
-        source: ./downstreams_static.d/millage.html
-        target: /usr/share/nginx/html/api/le/bill/millage/index.html
-        read_only: true
   proxy:
     image: nginx
     volumes:
@@ -55,6 +41,3 @@ services:
     ports:
       - 443:443
       - 80:80
-    depends_on:
-      - millage
-      - client
